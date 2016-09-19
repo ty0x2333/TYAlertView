@@ -1,0 +1,11 @@
+platform :ios,'7.0'
+
+target 'TYAlertView_Example' do
+  pod 'TYAlertView', :path => '../'
+
+  target 'TYAlertView_Tests' do
+    inherit! :search_paths
+
+    pod 'Kiwi'
+  end
+end
