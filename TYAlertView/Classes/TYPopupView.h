@@ -18,4 +18,6 @@ extern const UIWindowLevel UIWindowLevelTYPopup;
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
 
+@property (nonatomic, weak) UIWindow *currentKeyWindow;
+
 @end

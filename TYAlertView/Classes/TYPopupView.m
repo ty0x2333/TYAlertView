@@ -26,6 +26,8 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 
 - (void)show
 {
+    self.currentKeyWindow = [UIApplication sharedApplication].keyWindow;
+    
     [TYPopupView showBackgroundWithStyle:self.backgroundStyle];
     
     TYAlertViewController *alertViewController = [[TYAlertViewController alloc] initWithNibName:nil bundle:nil];
@@ -44,8 +46,9 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 - (void)dismissAnimated:(BOOL)animated
 {
     [TYPopupView hideBackgroundAnimated:animated];
+    [self.alertWindow removeFromSuperview];
+    self.alertWindow = nil;
 }
-
 
 #pragma mark - Helper
 
