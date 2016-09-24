@@ -16,6 +16,8 @@ static CGFloat const kTYAlertViewContentViewPaddingHorizontal = 10.f;
 static CGFloat const kTYAlertViewContentViewPaddingVertical = 10.f;
 static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
 
+static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
+
 @interface TYAlertView()
 
 @property (nonatomic, strong) UIView *containerView;
@@ -35,6 +37,7 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
     TYAlertView *appearance = [self appearance];
     appearance.titleColor = [UIColor blackColor];
     appearance.messageColor = [UIColor blackColor];
+    appearance.shadowRadius = kTYAlertViewDefaultShadowRadius;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -79,7 +82,7 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
     _containerView.backgroundColor = [UIColor whiteColor];
     _containerView.layer.cornerRadius = 4.f;
     _containerView.layer.shadowOffset = CGSizeZero;
-    _containerView.layer.shadowRadius = 2.f;
+    _containerView.layer.shadowRadius = self.shadowRadius;
     _containerView.layer.shadowOpacity = .5f;
     [self addSubview:_containerView];
     
@@ -138,6 +141,15 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
     }
     _messageColor = messageColor;
     self.messageLabel.textColor = messageColor;
+}
+
+- (void)setShadowRadius:(CGFloat)shadowRadius
+{
+    if (_shadowRadius == shadowRadius) {
+        return;
+    }
+    _shadowRadius = shadowRadius;
+    self.containerView.layer.shadowRadius = shadowRadius;
 }
 
 @end
