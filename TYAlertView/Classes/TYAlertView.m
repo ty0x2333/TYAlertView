@@ -34,6 +34,7 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
     
     TYAlertView *appearance = [self appearance];
     appearance.titleColor = [UIColor blackColor];
+    appearance.messageColor = [UIColor blackColor];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -92,7 +93,7 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
     
     _messageLabel = [[UILabel alloc] init];
     _messageLabel.textAlignment = NSTextAlignmentCenter;
-    _messageLabel.textColor = [UIColor blackColor];
+    _messageLabel.textColor = self.messageColor;
     _messageLabel.backgroundColor = [UIColor clearColor];
     [_containerView addSubview:_messageLabel];
 }
@@ -128,6 +129,15 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
     }
     _titleColor = titleColor;
     self.titleLabel.textColor = titleColor;
+}
+
+- (void)setMessageColor:(UIColor *)messageColor
+{
+    if (_messageColor == messageColor) {
+        return;
+    }
+    _messageColor = messageColor;
+    self.messageLabel.textColor = messageColor;
 }
 
 @end

@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setup;
 
 @property (nonatomic, strong) UIColor *titleColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *messageColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 
 @end
 
