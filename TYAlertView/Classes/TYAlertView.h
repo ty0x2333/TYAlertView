@@ -7,17 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
-extern const UIWindowLevel UIWindowLevelTYAlert;
+#import "TYPopupView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TYAlertView : UIView
+@interface TYAlertView : TYPopupView
 
 - (void)setup;
-
-- (void)show;
-- (void)dismissAnimated:(BOOL)animated;
 
 @end
 
