@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) CGFloat shadowRadius NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;;
 
+- (void)addButtonWithTitle:(NSString *)title;
+
 @end
 
 NS_ASSUME_NONNULL_END

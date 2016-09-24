@@ -16,6 +16,8 @@ static CGFloat const kTYAlertViewContentViewPaddingHorizontal = 10.f;
 static CGFloat const kTYAlertViewContentViewPaddingVertical = 10.f;
 static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
 
+static CGFloat const kTYAlertViewButtonHeight = 44.f;
+
 static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
 @interface TYAlertView()
@@ -23,6 +25,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) NSMutableArray<UIButton *> *buttons;
 
 @end
 
@@ -75,11 +78,32 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     self.containerView.frame = CGRectMake(left, top, kTYAlertViewContentViewWidth, height);
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
     
-    CGFloat labelWidth = kTYAlertViewContentViewWidth - 2 * kTYAlertViewContentViewPaddingHorizontal;
+    CGFloat contentWidth = kTYAlertViewContentViewWidth - 2 * kTYAlertViewContentViewPaddingHorizontal;
     
-    self.titleLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewContentViewPaddingVertical, labelWidth, kTYAlertViewTitleLabelHeight);
+    self.titleLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewContentViewPaddingVertical, contentWidth, kTYAlertViewTitleLabelHeight);
     
-    self.messageLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewTitleLabelHeight + kTYAlertViewContentViewPaddingVertical, labelWidth, height - kTYAlertViewTitleLabelHeight - 2 * kTYAlertViewContentViewPaddingVertical);
+    if (self.buttons.count == 2) {
+        CGFloat buttonWidth = contentWidth / 2;
+        UIButton *leftButton = [self.buttons firstObject];
+        leftButton.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, height - kTYAlertViewContentViewPaddingVertical - kTYAlertViewButtonHeight, buttonWidth, kTYAlertViewButtonHeight);
+        UIButton *rightButton = [self.buttons lastObject];
+        rightButton.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal + buttonWidth, height - kTYAlertViewContentViewPaddingVertical - kTYAlertViewButtonHeight, buttonWidth, kTYAlertViewButtonHeight);
+    } else {
+        for (NSInteger i = 0; i < self.buttons.count; ++i) {
+            UIButton *button = self.buttons[i];
+            button.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, height - kTYAlertViewContentViewPaddingVertical - (i + 1) * kTYAlertViewButtonHeight, contentWidth, kTYAlertViewButtonHeight);
+        }
+    }
+    
+    self.messageLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewTitleLabelHeight + kTYAlertViewContentViewPaddingVertical, contentWidth, height - kTYAlertViewTitleLabelHeight - 2 * kTYAlertViewContentViewPaddingVertical - self.buttons.count * kTYAlertViewButtonHeight);
+}
+
+- (void)addButtonWithTitle:(NSString *)title
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    [button setTitle:title forState:UIControlStateNormal];
+    [self.containerView addSubview:button];
+    [self.buttons addObject:button];
 }
 
 #pragma mark - Setup
@@ -99,6 +123,8 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     
     // lazy
     [_containerView addSubview:self.messageLabel];
+    
+    _buttons = [NSMutableArray array];
 }
 
 #pragma mark - Setter / Getter
