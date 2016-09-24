@@ -26,6 +26,16 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
 
 @implementation TYAlertView
 
++ (void)initialize
+{
+    if (self != [TYAlertView class]) {
+        return;
+    }
+    
+    TYAlertView *appearance = [self appearance];
+    appearance.titleColor = [UIColor blackColor];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -73,7 +83,7 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
     [self addSubview:_containerView];
     
     _titleLabel = [[UILabel alloc] init];
-    _titleLabel.textColor = [UIColor blackColor];
+    _titleLabel.textColor = self.titleColor;
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.backgroundColor = [UIColor clearColor];
     _titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -107,6 +117,17 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
 - (NSString *)message
 {
     return self.messageLabel.text;
+}
+
+#pragma mark Appearance Setter
+
+- (void)setTitleColor:(UIColor *)titleColor
+{
+    if (_titleColor == titleColor) {
+        return;
+    }
+    _titleColor = titleColor;
+    self.titleLabel.textColor = titleColor;
 }
 
 @end
