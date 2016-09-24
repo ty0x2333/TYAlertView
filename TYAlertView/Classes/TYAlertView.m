@@ -171,6 +171,21 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     _items = [NSMutableArray array];
 }
 
+#pragma mark - Transition
+
+- (void)translationOut:(void(^)())completion
+{
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         self.containerView.alpha = 0;
+                     }
+                     completion:^(BOOL finished) {
+                         if (completion) {
+                             completion();
+                         }
+                     }];
+}
+
 #pragma mark - Event Response
 
 - (void)onButtonClicked:(UIButton *)sender
