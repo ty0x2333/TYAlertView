@@ -70,11 +70,10 @@ const UIWindowLevel UIWindowLevelTYAlertBackground = 1985.0;
             break;
         }
         case TYAlertViewBackgroundStyleSolid:
-        {
-            [[UIColor colorWithWhite:0 alpha:0.5] set];
+            // same as UIAlertView
+            [[UIColor colorWithWhite:0 alpha:.4f] set];
             CGContextFillRect(context, self.bounds);
             break;
-        }
     }
 }
 
