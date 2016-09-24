@@ -10,7 +10,8 @@
 #import "TYAlertBackgroundWindow.h"
 
 typedef NS_ENUM(NSInteger, TYPopupViewTransitionStyle) {
-    TYPopupViewTransitionStyleBounce = 0,
+    TYPopupViewTransitionStyleSystem = 0,
+    TYPopupViewTransitionStyleBounce,
     TYPopupViewTransitionStyleFade
 };
 
