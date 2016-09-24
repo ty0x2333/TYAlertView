@@ -13,10 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TYAlertView : TYPopupView
 
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message;
+
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *message;
-
-- (void)setup;
 
 @property (nonatomic, strong) UIColor *titleColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *messageColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;

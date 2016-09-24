@@ -56,6 +56,15 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     return self;
 }
 
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message
+{
+    if (self = [super init]) {
+        self.title = title;
+        self.message = message;
+    }
+    return self;
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -73,7 +82,6 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     self.messageLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewTitleLabelHeight + kTYAlertViewContentViewPaddingVertical, labelWidth, height - kTYAlertViewTitleLabelHeight - 2 * kTYAlertViewContentViewPaddingVertical);
 }
 
-
 #pragma mark - Setup
 
 - (void)setup
@@ -86,19 +94,11 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     _containerView.layer.shadowOpacity = .5f;
     [self addSubview:_containerView];
     
-    _titleLabel = [[UILabel alloc] init];
-    _titleLabel.textColor = self.titleColor;
-    _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.backgroundColor = [UIColor clearColor];
-    _titleLabel.adjustsFontSizeToFitWidth = YES;
-    _titleLabel.text = self.title;
-    [_containerView addSubview:_titleLabel];
+    // lazy
+    [_containerView addSubview:self.titleLabel];
     
-    _messageLabel = [[UILabel alloc] init];
-    _messageLabel.textAlignment = NSTextAlignmentCenter;
-    _messageLabel.textColor = self.messageColor;
-    _messageLabel.backgroundColor = [UIColor clearColor];
-    [_containerView addSubview:_messageLabel];
+    // lazy
+    [_containerView addSubview:self.messageLabel];
 }
 
 #pragma mark - Setter / Getter
@@ -121,6 +121,31 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 - (NSString *)message
 {
     return self.messageLabel.text;
+}
+
+#pragma mark Lazy
+
+- (UILabel *)messageLabel
+{
+    if (!_messageLabel) {
+        _messageLabel = [[UILabel alloc] init];
+        _messageLabel.textAlignment = NSTextAlignmentCenter;
+        _messageLabel.textColor = self.messageColor;
+        _messageLabel.backgroundColor = [UIColor clearColor];
+    }
+    return _messageLabel;
+}
+
+- (UILabel *)titleLabel
+{
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.textColor = self.titleColor;
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.backgroundColor = [UIColor clearColor];
+        _titleLabel.adjustsFontSizeToFitWidth = YES;
+    }
+    return _titleLabel;
 }
 
 #pragma mark Appearance Setter
