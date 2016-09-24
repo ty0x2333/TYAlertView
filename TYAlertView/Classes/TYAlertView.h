@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TYAlertView : TYPopupView
 
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *message;
 
 - (void)setup;
 

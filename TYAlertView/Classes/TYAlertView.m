@@ -52,7 +52,11 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
     self.containerView.frame = CGRectMake(left, top, kTYAlertViewContentViewWidth, height);
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
     
-    self.titleLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewContentViewPaddingVertical, kTYAlertViewContentViewWidth - 2 * kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewTitleLabelHeight);
+    CGFloat labelWidth = kTYAlertViewContentViewWidth - 2 * kTYAlertViewContentViewPaddingHorizontal;
+    
+    self.titleLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewContentViewPaddingVertical, labelWidth, kTYAlertViewTitleLabelHeight);
+    
+    self.messageLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewTitleLabelHeight + kTYAlertViewContentViewPaddingVertical, labelWidth, height - kTYAlertViewTitleLabelHeight - 2 * kTYAlertViewContentViewPaddingVertical);
 }
 
 
@@ -75,6 +79,12 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
     _titleLabel.adjustsFontSizeToFitWidth = YES;
     _titleLabel.text = self.title;
     [_containerView addSubview:_titleLabel];
+    
+    _messageLabel = [[UILabel alloc] init];
+    _messageLabel.textAlignment = NSTextAlignmentCenter;
+    _messageLabel.textColor = [UIColor blackColor];
+    _messageLabel.backgroundColor = [UIColor clearColor];
+    [_containerView addSubview:_messageLabel];
 }
 
 #pragma mark - Setter / Getter
@@ -87,6 +97,16 @@ static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
 - (NSString *)title
 {
     return self.titleLabel.text;
+}
+
+- (void)setMessage:(NSString *)message
+{
+    self.messageLabel.text = message;
+}
+
+- (NSString *)message
+{
+    return self.messageLabel.text;
 }
 
 @end
