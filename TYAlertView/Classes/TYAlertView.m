@@ -119,6 +119,12 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     self.messageLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewTitleLabelHeight + kTYAlertViewContentViewPaddingVertical, contentWidth, height - kTYAlertViewTitleLabelHeight - 2 * kTYAlertViewContentViewPaddingVertical - self.buttons.count * kTYAlertViewButtonHeight);
 }
 
+- (void)show
+{
+    [super show];
+    [self transitionIn:nil];
+}
+
 - (NSUInteger)addButtonWithTitle:(NSString *)title handler:(void(^)())handler
 {
     NSUInteger index = self.items.count;
@@ -172,6 +178,20 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 }
 
 #pragma mark - Transition
+
+- (void)transitionIn:(void(^)())completion
+{
+    self.containerView.alpha = 0;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.containerView.alpha = 1;
+                     }
+                     completion:^(BOOL finished) {
+                         if (completion) {
+                             completion();
+                         }
+                     }];
+}
 
 - (void)translationOut:(void(^)())completion
 {
