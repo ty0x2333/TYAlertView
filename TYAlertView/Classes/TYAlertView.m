@@ -9,8 +9,15 @@
 #import "TYAlertView.h"
 #import "TYAlertViewController.h"
 
-// same as UIAlertView
+/**
+ *  same as UIAlertView
+ *  @{
+ */
 static CGFloat const kTYAlertViewContentViewCornerRadius = 20.f;
+static CGFloat const kTYAlertViewTitleLabelFontSize = 17.f;
+/**
+ *  @}
+ */
 
 static CGFloat const kTYAlertViewContentViewWidth = 300.f;
 static CGFloat const kTYAlertViewContentViewHeight = 300.f;
@@ -261,6 +268,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.textColor = self.titleColor;
+        _titleLabel.font = [UIFont boldSystemFontOfSize:kTYAlertViewTitleLabelFontSize];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.adjustsFontSizeToFitWidth = YES;
