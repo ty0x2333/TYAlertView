@@ -15,6 +15,7 @@
  */
 static CGFloat const kTYAlertViewContentViewCornerRadius = 20.f;
 static CGFloat const kTYAlertViewTitleLabelFontSize = 17.f;
+static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
 /**
  *  @}
  */
@@ -256,6 +257,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 {
     if (!_messageLabel) {
         _messageLabel = [[UILabel alloc] init];
+        _messageLabel.font = [UIFont systemFontOfSize:kTYAlertViewMessageLabelFontSize];
         _messageLabel.textAlignment = NSTextAlignmentCenter;
         _messageLabel.textColor = self.messageColor;
         _messageLabel.backgroundColor = [UIColor clearColor];
