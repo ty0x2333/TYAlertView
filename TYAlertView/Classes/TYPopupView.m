@@ -14,18 +14,20 @@
  *  same as UIAlertView
  *  @{
  */
-static CGFloat const kTYAlertViewContentViewCornerRadius = 20.f;
+static CGFloat const kTYPopupViewContentViewCornerRadius = 20.f;
 /**
  *  @}
  */
 
-static CGFloat const kTYAlertBackgroundAnimateDuration = .3f;
+static CGFloat const kTYPopupViewTransitionAnimationBounceMinScale = .01f;
+
+static CGFloat const kTYPopupViewBackgroundAnimateDuration = .3f;
 
 const UIWindowLevel UIWindowLevelTYPopup = 1996.0;
 
 static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 
-@interface TYPopupView()
+@interface TYPopupView()<CAAnimationDelegate>
 
 @property (nonatomic, strong) UIWindow *alertWindow;
 
@@ -53,7 +55,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 {
     _containerView = [[UIView alloc] init];
     _containerView.backgroundColor = [UIColor whiteColor];
-    _containerView.layer.cornerRadius = kTYAlertViewContentViewCornerRadius;
+    _containerView.layer.cornerRadius = kTYPopupViewContentViewCornerRadius;
     _containerView.layer.shadowOffset = CGSizeZero;
     _containerView.layer.shadowRadius = self.shadowRadius;
     _containerView.layer.shadowOpacity = .5f;
@@ -90,9 +92,17 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 - (void)dismissAnimated:(BOOL)animated
 {
     [TYPopupView hideBackgroundAnimated:animated];
-    [self.alertWindow removeFromSuperview];
-    self.alertWindow = nil;
-    [self translationOut:nil];
+    [self translationOut:^{
+        [self.alertWindow removeFromSuperview];
+        self.alertWindow = nil;
+    }];
+    
+    UIWindow *window = self.currentKeyWindow;
+    if (!window) {
+        window = [[UIApplication sharedApplication].windows firstObject];
+    }
+    [window makeKeyWindow];
+    window.hidden = NO;
 }
 
 #pragma mark - Setter
@@ -110,32 +120,87 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 
 - (void)transitionIn:(void(^)())completion
 {
-    self.containerView.alpha = 0;
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.containerView.alpha = 1;
-                     }
-                     completion:^(BOOL finished) {
-                         if (completion) {
-                             completion();
-                         }
-                     }];
+    switch (self.transitionStyle) {
+        case TYPopupViewTransitionStyleFade:
+        {
+            self.containerView.alpha = 0;
+            [UIView animateWithDuration:.3f
+                             animations:^{
+                                 self.containerView.alpha = 1;
+                             }
+                             completion:^(BOOL finished) {
+                                 if (completion) {
+                                     completion();
+                                 }
+                             }];
+        }
+            break;
+        case TYPopupViewTransitionStyleBounce:
+        {
+            CAKeyframeAnimation *animation = [self bounceAnimation:completion];
+            animation.values = @[@(0.8), @(1.2), @(0.9), @(1)];
+            animation.keyTimes = @[@(0), @(0.4), @(0.6), @(1)];
+            animation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            [self.containerView.layer addAnimation:animation forKey:@"bouce"];
+        }
+            break;
+    }
+    
 }
 
 - (void)translationOut:(void(^)())completion
 {
-    [UIView animateWithDuration:0.25
-                     animations:^{
-                         self.containerView.alpha = 0;
-                     }
-                     completion:^(BOOL finished) {
-                         if (completion) {
-                             completion();
-                         }
-                     }];
+    switch (self.transitionStyle) {
+        case TYPopupViewTransitionStyleFade:
+        {
+            [UIView animateWithDuration:.25f
+                             animations:^{
+                                 self.containerView.alpha = 0;
+                             }
+                             completion:^(BOOL finished) {
+                                 if (completion) {
+                                     completion();
+                                 }
+                             }];
+        }
+            break;
+        case TYPopupViewTransitionStyleBounce:
+        {
+            CAKeyframeAnimation *animation = [self bounceAnimation:completion];
+            animation.values = @[@(1), @(1.2), @(kTYPopupViewTransitionAnimationBounceMinScale)];
+            animation.keyTimes = @[@(0), @(0.4), @(1)];
+            animation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            [self.containerView.layer addAnimation:animation forKey:@"bounce"];
+            self.containerView.transform = CGAffineTransformMakeScale(kTYPopupViewTransitionAnimationBounceMinScale, kTYPopupViewTransitionAnimationBounceMinScale);
+        }
+            break;
+    }
+}
+
+#pragma mark - CAAnimationDelegate
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    void(^completion)(void) = [anim valueForKey:@"handler"];
+    if (completion) {
+        completion();
+    }
 }
 
 #pragma mark - Helper
+
+#pragma mark Animation
+
+- (CAKeyframeAnimation *)bounceAnimation:(void(^)())completion
+{
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    [animation setValue:completion forKey:@"handler"];
+    animation.duration = .3f;
+    animation.delegate = self;
+    return animation;
+}
+
+#pragma mark BackgroundWindow
 
 + (void)showBackgroundWithStyle:(TYAlertViewBackgroundStyle)style
 {
@@ -148,7 +213,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
         _sTYAlertBackgroundWindow = [[TYAlertBackgroundWindow alloc] initWithFrame:frame style:style];
         [_sTYAlertBackgroundWindow makeKeyAndVisible];
         _sTYAlertBackgroundWindow.alpha = 0;
-        [UIView animateWithDuration:kTYAlertBackgroundAnimateDuration
+        [UIView animateWithDuration:kTYPopupViewBackgroundAnimateDuration
                          animations:^{
                              _sTYAlertBackgroundWindow.alpha = 1;
                          }];
@@ -163,7 +228,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
         _sTYAlertBackgroundWindow = nil;
         return;
     }
-    [UIView animateWithDuration:kTYAlertBackgroundAnimateDuration
+    [UIView animateWithDuration:kTYPopupViewBackgroundAnimateDuration
                      animations:^{
                          _sTYAlertBackgroundWindow.alpha = 0;
                      }

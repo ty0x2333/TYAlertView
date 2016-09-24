@@ -148,12 +148,6 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 - (void)dismissAnimated:(BOOL)animated
 {
     [super dismissAnimated:animated];
-    UIWindow *window = self.currentKeyWindow;
-    if (!window) {
-        window = [[UIApplication sharedApplication].windows firstObject];
-    }
-    [window makeKeyWindow];
-    window.hidden = NO;
 }
 
 #pragma mark - Setup

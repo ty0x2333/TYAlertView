@@ -9,9 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "TYAlertBackgroundWindow.h"
 
+typedef NS_ENUM(NSInteger, TYPopupViewTransitionStyle) {
+    TYPopupViewTransitionStyleBounce = 0,
+    TYPopupViewTransitionStyleFade
+};
+
 extern const UIWindowLevel UIWindowLevelTYPopup;
 
 @interface TYPopupView : UIView
+
+@property (nonatomic, assign) TYPopupViewTransitionStyle transitionStyle;
 
 @property (nonatomic, strong) UIView *containerView;
 
