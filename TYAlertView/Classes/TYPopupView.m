@@ -10,6 +10,15 @@
 #import "TYAlertViewController.h"
 #import "TYAlertBackgroundWindow.h"
 
+/**
+ *  same as UIAlertView
+ *  @{
+ */
+static CGFloat const kTYAlertViewContentViewCornerRadius = 20.f;
+/**
+ *  @}
+ */
+
 static CGFloat const kTYAlertBackgroundAnimateDuration = .3f;
 
 const UIWindowLevel UIWindowLevelTYPopup = 1996.0;
@@ -23,6 +32,40 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 @end
 
 @implementation TYPopupView
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder]) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit
+{
+    _containerView = [[UIView alloc] init];
+    _containerView.backgroundColor = [UIColor whiteColor];
+    _containerView.layer.cornerRadius = kTYAlertViewContentViewCornerRadius;
+    _containerView.layer.shadowOffset = CGSizeZero;
+    _containerView.layer.shadowRadius = self.shadowRadius;
+    _containerView.layer.shadowOpacity = .5f;
+    [self addSubview:_containerView];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.containerView.transform = CGAffineTransformIdentity;
+    self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
+}
 
 - (void)show
 {
@@ -41,6 +84,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
         self.alertWindow = window;
     }
     [self.alertWindow makeKeyAndVisible];
+    [self transitionIn:nil];
 }
 
 - (void)dismissAnimated:(BOOL)animated
@@ -48,6 +92,47 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
     [TYPopupView hideBackgroundAnimated:animated];
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
+    [self translationOut:nil];
+}
+
+#pragma mark - Setter
+
+- (void)setShadowRadius:(CGFloat)shadowRadius
+{
+    if (_shadowRadius == shadowRadius) {
+        return;
+    }
+    _shadowRadius = shadowRadius;
+    self.containerView.layer.shadowRadius = shadowRadius;
+}
+
+#pragma mark - Transition
+
+- (void)transitionIn:(void(^)())completion
+{
+    self.containerView.alpha = 0;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.containerView.alpha = 1;
+                     }
+                     completion:^(BOOL finished) {
+                         if (completion) {
+                             completion();
+                         }
+                     }];
+}
+
+- (void)translationOut:(void(^)())completion
+{
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         self.containerView.alpha = 0;
+                     }
+                     completion:^(BOOL finished) {
+                         if (completion) {
+                             completion();
+                         }
+                     }];
 }
 
 #pragma mark - Helper

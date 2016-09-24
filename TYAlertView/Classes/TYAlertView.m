@@ -13,7 +13,6 @@
  *  same as UIAlertView
  *  @{
  */
-static CGFloat const kTYAlertViewContentViewCornerRadius = 20.f;
 static CGFloat const kTYAlertViewTitleLabelFontSize = 17.f;
 static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
 /**
@@ -54,7 +53,6 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
 @interface TYAlertView()
 
-@property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
@@ -100,19 +98,6 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
         self.message = message;
     }
     return self;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    self.containerView.transform = CGAffineTransformIdentity;
-    self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
-}
-
-- (void)show
-{
-    [super show];
-    [self transitionIn:nil];
 }
 
 - (NSUInteger)addButtonWithTitle:(NSString *)title handler:(void(^)())handler
@@ -163,9 +148,6 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 - (void)dismissAnimated:(BOOL)animated
 {
     [super dismissAnimated:animated];
-    [self translationOut:^{
-        
-    }];
     UIWindow *window = self.currentKeyWindow;
     if (!window) {
         window = [[UIApplication sharedApplication].windows firstObject];
@@ -178,29 +160,22 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
 - (void)setup
 {
-    _containerView = [[UIView alloc] init];
-    _containerView.backgroundColor = [UIColor whiteColor];
-    _containerView.layer.cornerRadius = kTYAlertViewContentViewCornerRadius;
-    _containerView.layer.shadowOffset = CGSizeZero;
-    _containerView.layer.shadowRadius = self.shadowRadius;
-    _containerView.layer.shadowOpacity = .5f;
-    [self addSubview:_containerView];
-    _containerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:0]];
-    [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:nil multiplier:1.f constant:270.f]];
-    [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:nil multiplier:1.f constant:44.f]];
+    self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:0]];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:nil multiplier:1.f constant:270.f]];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:nil multiplier:1.f constant:44.f]];
     
     // Content View
     _contentView = [[UIView alloc] init];
-    [_containerView addSubview:_contentView];
+    [self.containerView addSubview:_contentView];
     _contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0]];
-    [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0]];
-    [_containerView addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
-    NSLayoutConstraint *contentViewFullHeightConstraint = [NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeHeight multiplier:1.f constant:0];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.containerView attribute:NSLayoutAttributeLeading multiplier:1.f constant:0]];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.containerView attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0]];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.containerView attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
+    NSLayoutConstraint *contentViewFullHeightConstraint = [NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.containerView attribute:NSLayoutAttributeHeight multiplier:1.f constant:0];
     contentViewFullHeightConstraint.priority = UILayoutPriorityDefaultHigh;
-    [_containerView addConstraint:contentViewFullHeightConstraint];
+    [self.containerView addConstraint:contentViewFullHeightConstraint];
     
     // Title Label
     UILabel *titleLabel = self.titleLabel;
@@ -236,35 +211,6 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 //    NSLayoutConstraint *t = [NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:button attribute:NSLayoutAttributeBottom multiplier:1.f constant:0];
 //    [_containerView addConstraint:t];
 //    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_contentView]-[button]-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_contentView, button)]];
-}
-
-#pragma mark - Transition
-
-- (void)transitionIn:(void(^)())completion
-{
-    self.containerView.alpha = 0;
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.containerView.alpha = 1;
-                     }
-                     completion:^(BOOL finished) {
-                         if (completion) {
-                             completion();
-                         }
-                     }];
-}
-
-- (void)translationOut:(void(^)())completion
-{
-    [UIView animateWithDuration:0.25
-                     animations:^{
-                         self.containerView.alpha = 0;
-                     }
-                     completion:^(BOOL finished) {
-                         if (completion) {
-                             completion();
-                         }
-                     }];
 }
 
 #pragma mark - Event Response
@@ -346,15 +292,6 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     }
     _messageColor = messageColor;
     self.messageLabel.textColor = messageColor;
-}
-
-- (void)setShadowRadius:(CGFloat)shadowRadius
-{
-    if (_shadowRadius == shadowRadius) {
-        return;
-    }
-    _shadowRadius = shadowRadius;
-    self.containerView.layer.shadowRadius = shadowRadius;
 }
 
 @end
