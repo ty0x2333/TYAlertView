@@ -19,11 +19,32 @@ const UIWindowLevel UIWindowLevelTYAlertBackground = 1985.0;
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.opaque = NO;
-        self.windowLevel = UIWindowLevelTYAlertBackground;
+        [self setup];
     }
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder]) {
+        [self setup];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame style:(TYAlertViewBackgroundStyle)style
+{
+    if (self = [self initWithFrame:frame]) {
+        self.style = style;
+    }
+    return self;
+}
+
+- (void)setup
+{
+    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.opaque = NO;
+    self.windowLevel = UIWindowLevelTYAlertBackground;
 }
 
 - (void)drawRect:(CGRect)rect

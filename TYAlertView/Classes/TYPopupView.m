@@ -1,6 +1,6 @@
 //
 //  TYPopupView.m
-//  Pods
+//  TYAlertView
 //
 //  Created by luckytianyiyan on 2016/9/24.
 //
@@ -26,7 +26,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 
 - (void)show
 {
-    [TYPopupView showBackground];
+    [TYPopupView showBackgroundWithStyle:self.backgroundStyle];
     
     TYAlertViewController *alertViewController = [[TYAlertViewController alloc] initWithNibName:nil bundle:nil];
     alertViewController.alertView = self;
@@ -49,7 +49,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 
 #pragma mark - Helper
 
-+ (void)showBackground
++ (void)showBackgroundWithStyle:(TYAlertViewBackgroundStyle)style
 {
     if (!_sTYAlertBackgroundWindow) {
         CGRect frame = [[UIScreen mainScreen] bounds];
@@ -57,7 +57,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
             frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
         }
         
-        _sTYAlertBackgroundWindow = [[TYAlertBackgroundWindow alloc] initWithFrame:frame];
+        _sTYAlertBackgroundWindow = [[TYAlertBackgroundWindow alloc] initWithFrame:frame style:style];
         [_sTYAlertBackgroundWindow makeKeyAndVisible];
         _sTYAlertBackgroundWindow.alpha = 0;
         [UIView animateWithDuration:kTYAlertBackgroundAnimateDuration

@@ -17,6 +17,8 @@ extern const UIWindowLevel UIWindowLevelTYAlertBackground;
 
 @interface TYAlertBackgroundWindow : UIWindow
 
+- (instancetype)initWithFrame:(CGRect)frame style:(TYAlertViewBackgroundStyle)style;
+
 @property (nonatomic, assign) TYAlertViewBackgroundStyle style;
 
 @end
