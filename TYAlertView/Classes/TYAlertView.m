@@ -20,12 +20,33 @@ static CGFloat const kTYAlertViewButtonHeight = 44.f;
 
 static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
+@interface TYAlertViewButtonItem : NSObject
+
+@property (nonatomic, copy) NSString *text;
+@property (nonatomic, copy) void(^handler)(TYAlertView *alertView, NSInteger index);
+
+- (UIButton *)button;
+
+@end
+
+@implementation TYAlertViewButtonItem
+
+- (UIButton *)button
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    [button setTitle:self.text forState:UIControlStateNormal];
+    return button;
+}
+
+@end
+
 @interface TYAlertView()
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) NSMutableArray<UIButton *> *buttons;
+@property (nonatomic, strong) NSMutableArray<TYAlertViewButtonItem *> *items;
 
 @end
 
@@ -98,12 +119,20 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     self.messageLabel.frame = CGRectMake(kTYAlertViewContentViewPaddingHorizontal, kTYAlertViewTitleLabelHeight + kTYAlertViewContentViewPaddingVertical, contentWidth, height - kTYAlertViewTitleLabelHeight - 2 * kTYAlertViewContentViewPaddingVertical - self.buttons.count * kTYAlertViewButtonHeight);
 }
 
-- (void)addButtonWithTitle:(NSString *)title
+- (NSUInteger)addButtonWithTitle:(NSString *)title handler:(void(^)())handler
 {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setTitle:title forState:UIControlStateNormal];
+    NSUInteger index = self.items.count;
+    TYAlertViewButtonItem *item = [[TYAlertViewButtonItem alloc] init];
+    item.text = title;
+    item.handler = handler;
+    [self.items addObject:item];
+    
+    UIButton *button = [item button];
+    [button addTarget:self action:@selector(onButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    button.tag = index;
     [self.containerView addSubview:button];
     [self.buttons addObject:button];
+    return index;
 }
 
 #pragma mark - Setup
@@ -125,6 +154,19 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     [_containerView addSubview:self.messageLabel];
     
     _buttons = [NSMutableArray array];
+    _items = [NSMutableArray array];
+}
+
+#pragma mark - Event Response
+
+- (void)onButtonClicked:(UIButton *)sender
+{
+    NSUInteger index = sender.tag;
+    TYAlertViewButtonItem *item = self.items[index];
+    if (item.handler) {
+        item.handler(self, index);
+    }
+    [self dismissAnimated:YES];
 }
 
 #pragma mark - Setter / Getter

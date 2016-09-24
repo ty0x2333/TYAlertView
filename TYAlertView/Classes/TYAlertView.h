@@ -26,7 +26,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) CGFloat shadowRadius NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;;
 
-- (void)addButtonWithTitle:(NSString *)title;
+
+/**
+ Add a button to the bottom
+
+ @param title   text of button
+ @param handler click event handler
+
+ @return index of button
+ */
+- (NSUInteger)addButtonWithTitle:(NSString *)title handler:(nullable void(^)(TYAlertView *alertView, NSInteger index))handler;
 
 @end
 
