@@ -9,6 +9,9 @@
 #import "TYAlertView.h"
 #import "TYAlertViewController.h"
 
+// same as UIAlertView
+static CGFloat const kTYAlertViewContentViewCornerRadius = 20.f;
+
 static CGFloat const kTYAlertViewContentViewWidth = 300.f;
 static CGFloat const kTYAlertViewContentViewHeight = 300.f;
 
@@ -161,7 +164,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 {
     _containerView = [[UIView alloc] init];
     _containerView.backgroundColor = [UIColor whiteColor];
-    _containerView.layer.cornerRadius = 4.f;
+    _containerView.layer.cornerRadius = kTYAlertViewContentViewCornerRadius;
     _containerView.layer.shadowOffset = CGSizeZero;
     _containerView.layer.shadowRadius = self.shadowRadius;
     _containerView.layer.shadowOpacity = .5f;
