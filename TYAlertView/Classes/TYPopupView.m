@@ -72,6 +72,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 {
     _containerView = [[UIView alloc] init];
     _containerView.backgroundColor = [UIColor whiteColor];
+    _containerView.clipsToBounds = YES;
     _containerView.layer.cornerRadius = kTYPopupViewContentViewCornerRadius;
     _containerView.layer.shadowOffset = CGSizeZero;
     _containerView.layer.shadowRadius = self.shadowRadius;
