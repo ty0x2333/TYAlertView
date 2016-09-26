@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, TYAlertActionStyle) {
     TYAlertActionStyleDefault = 0,
     TYAlertActionStyleCancel,
-    TYAlertActionStyleDestructive
+    TYAlertActionStyleDestructive,
+    
+    TYAlertActionStyleBlod = TYAlertActionStyleCancel
 };
 
 @interface TYAlertAction : NSObject

@@ -52,7 +52,8 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitle:self.title forState:UIControlStateNormal];
-    button.titleLabel.font = self.style == TYAlertActionStyleCancel ? [UIFont boldSystemFontOfSize:kTYAlertViewActionTextLabelFontSize] : [UIFont systemFontOfSize:kTYAlertViewActionTextLabelFontSize];
+    // TYAlertActionStyleBlod or TYAlertActionStyleCancel => blod font
+    button.titleLabel.font = self.style == TYAlertActionStyleBlod ? [UIFont boldSystemFontOfSize:kTYAlertViewActionTextLabelFontSize] : [UIFont systemFontOfSize:kTYAlertViewActionTextLabelFontSize];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     if (self.style == TYAlertActionStyleDestructive) {
         [button setTitleColor:[UIColor colorWithRed:1 green:59 / 255.f blue:48 / 255.f alpha:1.f] forState:UIControlStateNormal];
