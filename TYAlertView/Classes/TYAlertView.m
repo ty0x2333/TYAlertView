@@ -30,7 +30,7 @@ static CGFloat const kTYAlertViewButtonHeight = 44.f;
 
 static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
-@interface TYAlertViewButtonItem : NSObject
+@interface TYAlertAction : NSObject
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) void(^handler)(TYAlertView *alertView);
@@ -39,7 +39,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
 @end
 
-@implementation TYAlertViewButtonItem
+@implementation TYAlertAction
 
 - (UIButton *)button
 {
@@ -57,7 +57,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) NSMutableArray<UIButton *> *buttons;
-@property (nonatomic, strong) NSMutableArray<TYAlertViewButtonItem *> *items;
+@property (nonatomic, strong) NSMutableArray<TYAlertAction *> *items;
 @property (nonatomic, strong) NSArray<NSLayoutConstraint *> *buttonConstraints;
 @property (nonatomic, strong) NSArray<UIView *> *separators;
 @end
@@ -104,7 +104,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 - (NSUInteger)addButtonWithTitle:(NSString *)title handler:(void(^)(TYAlertView *alertView))handler
 {
     NSUInteger index = self.items.count;
-    TYAlertViewButtonItem *item = [[TYAlertViewButtonItem alloc] init];
+    TYAlertAction *item = [[TYAlertAction alloc] init];
     item.title = title;
     item.handler = handler;
     [self.items addObject:item];
@@ -227,7 +227,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 - (void)onButtonClicked:(UIButton *)sender
 {
     NSUInteger index = sender.tag;
-    TYAlertViewButtonItem *item = self.items[index];
+    TYAlertAction *item = self.items[index];
     if (item.handler) {
         item.handler(self);
     }
