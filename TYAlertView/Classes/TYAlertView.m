@@ -14,6 +14,7 @@
  *  @{
  */
 static CGFloat const kTYAlertViewTitleLabelFontSize = 17.f;
+static CGFloat const kTYAlertViewActionTextLabelFontSize = 17.f;
 static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
 /**
  *  @}
@@ -51,7 +52,11 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitle:self.title forState:UIControlStateNormal];
+    button.titleLabel.font = self.style == TYAlertActionStyleCancel ? [UIFont boldSystemFontOfSize:kTYAlertViewActionTextLabelFontSize] : [UIFont systemFontOfSize:kTYAlertViewActionTextLabelFontSize];
     button.translatesAutoresizingMaskIntoConstraints = NO;
+    if (self.style == TYAlertActionStyleDestructive) {
+        [button setTitleColor:[UIColor colorWithRed:1 green:59 / 255.f blue:48 / 255.f alpha:1.f] forState:UIControlStateNormal];
+    }
     return button;
 }
 
