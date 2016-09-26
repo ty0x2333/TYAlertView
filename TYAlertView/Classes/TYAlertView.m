@@ -57,7 +57,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) NSMutableArray<UIButton *> *buttons;
-@property (nonatomic, strong) NSMutableArray<TYAlertAction *> *items;
+@property (nonatomic, strong) NSMutableArray<TYAlertAction *> *actions;
 @property (nonatomic, strong) NSArray<NSLayoutConstraint *> *buttonConstraints;
 @property (nonatomic, strong) NSArray<UIView *> *separators;
 @end
@@ -103,13 +103,13 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
 - (NSUInteger)addButtonWithTitle:(NSString *)title handler:(void(^)(TYAlertView *alertView))handler
 {
-    NSUInteger index = self.items.count;
-    TYAlertAction *item = [[TYAlertAction alloc] init];
-    item.title = title;
-    item.handler = handler;
-    [self.items addObject:item];
+    NSUInteger index = self.actions.count;
+    TYAlertAction *action = [[TYAlertAction alloc] init];
+    action.title = title;
+    action.handler = handler;
+    [self.actions addObject:action];
     
-    UIButton *button = [item button];
+    UIButton *button = [action button];
     [button addTarget:self action:@selector(onButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     button.tag = index;
     [self.containerView addSubview:button];
@@ -219,7 +219,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     
     
     _buttons = [NSMutableArray array];
-    _items = [NSMutableArray array];
+    _actions = [NSMutableArray array];
 }
 
 #pragma mark - Event Response
@@ -227,9 +227,9 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 - (void)onButtonClicked:(UIButton *)sender
 {
     NSUInteger index = sender.tag;
-    TYAlertAction *item = self.items[index];
-    if (item.handler) {
-        item.handler(self);
+    TYAlertAction *action = self.actions[index];
+    if (action.handler) {
+        action.handler(self);
     }
     [self dismissAnimated:YES];
 }
