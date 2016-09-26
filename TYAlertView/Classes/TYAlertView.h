@@ -53,6 +53,8 @@ typedef NS_ENUM(NSInteger, TYAlertActionStyle) {
  */
 - (NSUInteger)addButtonWithTitle:(NSString *)title handler:(nullable void(^)(TYAlertAction *alertAction))handler;
 
+- (void)addAction:(TYAlertAction *)action;
+
 @end
 
 NS_ASSUME_NONNULL_END
