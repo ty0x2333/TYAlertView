@@ -19,7 +19,11 @@ typedef NS_ENUM(NSInteger, TYAlertActionStyle) {
 
 @interface TYAlertAction : NSObject
 
++ (instancetype)actionWithTitle:(nullable NSString *)title style:(TYAlertActionStyle)style handler:(void (^ __nullable)(TYAlertAction *action))handler;
+
+@property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) TYAlertActionStyle style;
+@property (nonatomic, copy) void(^handler)(TYAlertAction *alertView);
 
 @end
 
@@ -47,7 +51,7 @@ typedef NS_ENUM(NSInteger, TYAlertActionStyle) {
 
  @return index of button
  */
-- (NSUInteger)addButtonWithTitle:(NSString *)title handler:(nullable void(^)(TYAlertView *alertView))handler;
+- (NSUInteger)addButtonWithTitle:(NSString *)title handler:(nullable void(^)(TYAlertAction *alertAction))handler;
 
 @end
 

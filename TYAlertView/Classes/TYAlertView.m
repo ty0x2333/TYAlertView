@@ -32,14 +32,20 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
 @interface TYAlertAction()
 
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) void(^handler)(TYAlertView *alertView);
-
 - (UIButton *)button;
 
 @end
 
 @implementation TYAlertAction
+
++ (instancetype)actionWithTitle:(nullable NSString *)title style:(TYAlertActionStyle)style handler:(void (^ __nullable)(TYAlertAction *action))handler
+{
+    TYAlertAction *action = [[TYAlertAction alloc] init];
+    action.title = title;
+    action.style = style;
+    action.handler = handler;
+    return action;
+}
 
 - (UIButton *)button
 {
@@ -101,7 +107,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     return self;
 }
 
-- (NSUInteger)addButtonWithTitle:(NSString *)title handler:(void(^)(TYAlertView *alertView))handler
+- (NSUInteger)addButtonWithTitle:(NSString *)title handler:(void(^)(TYAlertAction *alertAction))handler
 {
     NSUInteger index = self.actions.count;
     TYAlertAction *action = [[TYAlertAction alloc] init];
@@ -229,7 +235,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     NSUInteger index = sender.tag;
     TYAlertAction *action = self.actions[index];
     if (action.handler) {
-        action.handler(self);
+        action.handler(action);
     }
     [self dismissAnimated:YES];
 }
