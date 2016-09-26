@@ -42,17 +42,6 @@ typedef NS_ENUM(NSInteger, TYAlertActionStyle) {
  */
 @property (nonatomic, assign) CGFloat shadowRadius NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;;
 
-
-/**
- Add a button to the bottom
-
- @param title   text of button
- @param handler click event handler
-
- @return index of button
- */
-- (NSUInteger)addButtonWithTitle:(NSString *)title handler:(nullable void(^)(TYAlertAction *alertAction))handler;
-
 - (void)addAction:(TYAlertAction *)action;
 
 @end
