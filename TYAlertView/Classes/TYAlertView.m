@@ -32,7 +32,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
 @interface TYAlertViewButtonItem : NSObject
 
-@property (nonatomic, copy) NSString *text;
+@property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) void(^handler)(TYAlertView *alertView);
 
 - (UIButton *)button;
@@ -44,7 +44,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 - (UIButton *)button
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setTitle:self.text forState:UIControlStateNormal];
+    [button setTitle:self.title forState:UIControlStateNormal];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     return button;
 }
@@ -105,7 +105,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 {
     NSUInteger index = self.items.count;
     TYAlertViewButtonItem *item = [[TYAlertViewButtonItem alloc] init];
-    item.text = title;
+    item.title = title;
     item.handler = handler;
     [self.items addObject:item];
     
