@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return index of button
  */
-- (NSUInteger)addButtonWithTitle:(NSString *)title handler:(nullable void(^)(TYAlertView *alertView, NSInteger index))handler;
+- (NSUInteger)addButtonWithTitle:(NSString *)title handler:(nullable void(^)(TYAlertView *alertView))handler;
 
 @end
 
