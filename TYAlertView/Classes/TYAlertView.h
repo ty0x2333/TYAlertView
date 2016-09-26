@@ -11,6 +11,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, TYAlertActionStyle) {
+    TYAlertActionStyleDefault = 0,
+    TYAlertActionStyleCancel,
+    TYAlertActionStyleDestructive
+};
+
+@interface TYAlertAction : NSObject
+
+@property (nonatomic, assign) TYAlertActionStyle style;
+
+@end
+
 @interface TYAlertView : TYPopupView
 
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message;

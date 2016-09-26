@@ -30,7 +30,7 @@ static CGFloat const kTYAlertViewButtonHeight = 44.f;
 
 static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 
-@interface TYAlertAction : NSObject
+@interface TYAlertAction()
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) void(^handler)(TYAlertView *alertView);
