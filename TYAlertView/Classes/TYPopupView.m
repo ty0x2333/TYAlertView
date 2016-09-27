@@ -47,6 +47,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 @interface TYPopupView()<CAAnimationDelegate>
 
 @property (nonatomic, strong) UIWindow *alertWindow;
+@property (nonatomic, weak) UIWindow *currentKeyWindow;
 
 @end
 

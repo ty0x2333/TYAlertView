@@ -20,16 +20,13 @@ extern const UIWindowLevel UIWindowLevelTYPopup;
 @interface TYPopupView : UIView
 
 @property (nonatomic, assign) TYPopupViewTransitionStyle transitionStyle;
+@property (nonatomic, assign) TYAlertViewBackgroundStyle backgroundStyle;
 
 @property (nonatomic, strong) UIView *containerView;
-
-@property (nonatomic, assign) TYAlertViewBackgroundStyle backgroundStyle;
 
 @property (nonatomic, assign) CGFloat shadowRadius;
 
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
-
-@property (nonatomic, weak) UIWindow *currentKeyWindow;
 
 @end
