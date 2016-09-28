@@ -143,11 +143,11 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
         UIButton *leftButton = [self.buttons firstObject];
         UIButton *rightButton = [self.buttons lastObject];
         UIView *contentView = self.contentView;
-        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[contentView]-0-[separatorHorizontal(==0.5)]-0-[leftButton(>=44)]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView, separatorHorizontal, leftButton)]];
-        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[separatorHorizontal]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separatorHorizontal)]];
-        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separatorHorizontal]-0-[separatorVertical]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separatorHorizontal, separatorVertical)]];
-        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[contentView]-0-[separatorHorizontal]-0-[rightButton(>=44)]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView, separatorHorizontal, rightButton)]];
-        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[leftButton]-[separatorVertical(==0.5)]-[rightButton(==leftButton)]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(leftButton, separatorVertical, rightButton)]];
+        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[contentView][separatorHorizontal(==0.5)][leftButton(>=44)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView, separatorHorizontal, leftButton)]];
+        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[separatorHorizontal]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separatorHorizontal)]];
+        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[separatorHorizontal][separatorVertical]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separatorHorizontal, separatorVertical)]];
+        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[contentView][separatorHorizontal][rightButton(>=44)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView, separatorHorizontal, rightButton)]];
+        [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[leftButton]-[separatorVertical(==0.5)]-[rightButton(==leftButton)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(leftButton, separatorVertical, rightButton)]];
     } else {
         buttonConstraints = [NSMutableArray arrayWithCapacity:self.buttons.count * 6 + 1];
         separators = [NSMutableArray arrayWithCapacity:self.buttons.count];
@@ -163,13 +163,13 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
             
             NSString *name = [NSString stringWithFormat:@"button%zd", i];
             NSString *separatorName = [NSString stringWithFormat:@"separatorVertical%zd", i];
-            [visualFormat appendFormat:@"-0-[%@(==0.5)]-0-[%@(>=44)]", separatorName, name];
+            [visualFormat appendFormat:@"[%@(==0.5)][%@(>=44)]", separatorName, name];
             [views setObject:button forKey:name];
             [views setObject:separatorVertical forKey:separatorName];
-            [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[button]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(button, separatorVertical)]];
-            [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[separatorVertical]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separatorVertical)]];
+            [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[button]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(button, separatorVertical)]];
+            [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[separatorVertical]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(separatorVertical)]];
         }
-        [visualFormat appendString:@"-0-|"];
+        [visualFormat appendString:@"|"];
         [buttonConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:visualFormat options:0 metrics:nil views:views]];
     }
     _separators = [separators copy];
@@ -187,7 +187,6 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 - (void)setup
 {
     self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
-    // same as UIAlertView
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=10)-[containerView]-(>=10)-|" options:0 metrics:nil views:@{@"containerView": self.containerView}]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:0]];
