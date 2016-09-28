@@ -187,6 +187,8 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 - (void)setup
 {
     self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    // same as UIAlertView
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=10)-[containerView]-(>=10)-|" options:0 metrics:nil views:@{@"containerView": self.containerView}]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:0]];
     [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:nil multiplier:1.f constant:270.f]];
@@ -273,6 +275,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
         _messageLabel.textAlignment = NSTextAlignmentCenter;
         _messageLabel.textColor = self.messageColor;
         _messageLabel.backgroundColor = [UIColor clearColor];
+        _messageLabel.numberOfLines = 0;
     }
     return _messageLabel;
 }
@@ -285,7 +288,7 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
         _titleLabel.font = [UIFont boldSystemFontOfSize:kTYAlertViewTitleLabelFontSize];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.backgroundColor = [UIColor clearColor];
-        _titleLabel.adjustsFontSizeToFitWidth = YES;
+        _titleLabel.numberOfLines = 0;
     }
     return _titleLabel;
 }
