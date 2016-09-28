@@ -8,6 +8,7 @@
 
 #import "TYAppDelegate.h"
 #import "TYViewController.h"
+#import <TYAlertView.h>
 
 @implementation TYAppDelegate
 
@@ -17,6 +18,10 @@
     _window.backgroundColor = [UIColor whiteColor];
     _window.rootViewController = [[TYViewController alloc] init];
     [_window makeKeyAndVisible];
+    
+    // Appearance
+//    [TYAlertView appearance].titleColor = [UIColor redColor];
+//    [TYAlertView appearance].messageColor = [UIColor yellowColor];
     return YES;
 }
 
