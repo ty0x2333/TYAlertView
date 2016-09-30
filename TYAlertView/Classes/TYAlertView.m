@@ -7,7 +7,7 @@
 //
 
 #import "TYAlertView.h"
-#import "TYAlertViewController.h"
+#import "TYPopupViewController.h"
 
 /**
  *  same as UIAlertView
@@ -19,15 +19,6 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
 /**
  *  @}
  */
-
-static CGFloat const kTYAlertViewContentViewWidth = 300.f;
-static CGFloat const kTYAlertViewContentViewHeight = 300.f;
-
-static CGFloat const kTYAlertViewContentViewPaddingHorizontal = 10.f;
-static CGFloat const kTYAlertViewContentViewPaddingVertical = 10.f;
-static CGFloat const kTYAlertViewTitleLabelHeight = 50.f;
-
-static CGFloat const kTYAlertViewButtonHeight = 44.f;
 
 static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
 

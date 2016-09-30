@@ -7,7 +7,7 @@
 //
 
 #import "TYPopupView.h"
-#import "TYAlertViewController.h"
+#import "TYPopupViewController.h"
 #import "TYAlertBackgroundWindow.h"
 
 /**
@@ -94,8 +94,8 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
     
     [TYPopupView showBackgroundWithStyle:self.backgroundStyle];
     
-    TYAlertViewController *alertViewController = [[TYAlertViewController alloc] initWithNibName:nil bundle:nil];
-    alertViewController.alertView = self;
+    TYPopupViewController *alertViewController = [[TYPopupViewController alloc] initWithNibName:nil bundle:nil];
+    alertViewController.popupView = self;
     if (!self.alertWindow) {
         UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
