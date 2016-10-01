@@ -19,6 +19,8 @@ static CGFloat const kTYPopupViewContentViewCornerRadius = 20.f;
  *  @}
  */
 
+static CGFloat const kTYPopupViewDefaultShadowRadius = 4.f;
+
 static CGFloat const kTYPopupViewTransitionAnimationBounceMinScale = .01f;
 
 static CGFloat const kTYPopupViewBackgroundAnimateDuration = .3f;
@@ -52,6 +54,16 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 @end
 
 @implementation TYPopupView
+
++ (void)initialize
+{
+    if (self != [TYPopupView class]) {
+        return;
+    }
+    
+    TYPopupView *appearance = [self appearance];
+    appearance.shadowRadius = kTYPopupViewDefaultShadowRadius;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {

@@ -20,8 +20,6 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
  *  @}
  */
 
-static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
-
 @interface TYAlertAction()
 
 - (UIButton *)button;
@@ -76,7 +74,6 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     TYAlertView *appearance = [self appearance];
     appearance.titleColor = [UIColor blackColor];
     appearance.messageColor = [UIColor blackColor];
-    appearance.shadowRadius = kTYAlertViewDefaultShadowRadius;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -181,8 +178,8 @@ static CGFloat const kTYAlertViewDefaultShadowRadius = 4.f;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=10)-[containerView]-(>=10)-|" options:0 metrics:nil views:@{@"containerView": self.containerView}]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:0]];
-    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:nil multiplier:1.f constant:270.f]];
-    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:nil multiplier:1.f constant:44.f]];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:270.f]];
+    [self.containerView addConstraint:[NSLayoutConstraint constraintWithItem:self.containerView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:44.f]];
     
     // Content View
     _contentView = [[UIView alloc] init];

@@ -24,7 +24,10 @@ extern const UIWindowLevel UIWindowLevelTYPopup;
 
 @property (nonatomic, strong) UIView *containerView;
 
-@property (nonatomic, assign) CGFloat shadowRadius;
+/**
+ default is 4.0f
+ */
+@property (nonatomic, assign) CGFloat shadowRadius NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;;
 
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
