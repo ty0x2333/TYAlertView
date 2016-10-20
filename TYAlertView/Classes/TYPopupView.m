@@ -63,6 +63,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
     
     TYPopupView *appearance = [self appearance];
     appearance.shadowRadius = kTYPopupViewDefaultShadowRadius;
+    appearance.popupViewBackgroundColor = [UIColor whiteColor];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -84,7 +85,7 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 - (void)commonInit
 {
     _containerView = [[UIView alloc] init];
-    _containerView.backgroundColor = [UIColor whiteColor];
+    _containerView.backgroundColor = self.popupViewBackgroundColor;
     _containerView.clipsToBounds = YES;
     _containerView.layer.cornerRadius = kTYPopupViewContentViewCornerRadius;
     _containerView.layer.shadowOffset = CGSizeZero;
@@ -145,6 +146,15 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
     }
     _shadowRadius = shadowRadius;
     self.containerView.layer.shadowRadius = shadowRadius;
+}
+
+- (void)setPopupViewBackgroundColor:(UIColor *)popupViewBackgroundColor
+{
+    if (_popupViewBackgroundColor == popupViewBackgroundColor) {
+        return;
+    }
+    _popupViewBackgroundColor = popupViewBackgroundColor;
+    self.containerView.backgroundColor = popupViewBackgroundColor;
 }
 
 #pragma mark - Transition

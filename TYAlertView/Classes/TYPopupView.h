@@ -23,6 +23,7 @@ extern const UIWindowLevel UIWindowLevelTYPopup;
 @property (nonatomic, assign) TYAlertViewBackgroundStyle backgroundStyle;
 
 @property (nonatomic, strong) UIView *containerView;
+@property (nonatomic, strong) UIColor *popupViewBackgroundColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 
 /**
  default is 4.0f
