@@ -92,7 +92,7 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message
+- (instancetype)initWithTitle:(nullable NSString *)title message:(nullable NSString *)message
 {
     if (self = [super init]) {
         self.title = title;

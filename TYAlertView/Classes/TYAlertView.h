@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, TYAlertActionStyle) {
 
 @interface TYAlertView : TYPopupView
 
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message;
+- (instancetype)initWithTitle:(nullable NSString *)title message:(nullable NSString *)message;
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *message;
