@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, TYAlertActionStyle) {
 
 @property (nonatomic, strong) UIColor *titleColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *messageColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
+- (void)setButtonTitleColor:(nullable UIColor *)color forActionStyle:(TYAlertActionStyle)style forState:(UIControlState)state UI_APPEARANCE_SELECTOR;
 
 - (void)addAction:(TYAlertAction *)action;
 

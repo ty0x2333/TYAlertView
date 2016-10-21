@@ -61,6 +61,12 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
 @property (nonatomic, strong) NSMutableArray<TYAlertAction *> *actions;
 @property (nonatomic, strong) NSArray<NSLayoutConstraint *> *buttonConstraints;
 @property (nonatomic, strong) NSArray<UIView *> *separators;
+
+
+/**
+ NSMutableDictionary<TYAlertActionStyle, NSDictionary<UIControlState, UIColor *> *>
+ */
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSMutableDictionary<NSNumber *, UIColor *> *> *buttonTitleColors;
 @end
 
 @implementation TYAlertView
@@ -107,6 +113,12 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
     [self.actions addObject:action];
     
     UIButton *button = [action button];
+    NSDictionary *titleColors = self.buttonTitleColors[@(action.style)];
+    [titleColors enumerateKeysAndObjectsUsingBlock:^(NSNumber *state, id color, BOOL * _Nonnull stop) {
+        UIColor *titleColor = color == [NSNull null] ? nil : color;
+        [button setTitleColor:titleColor forState:state.unsignedIntegerValue];
+    }];
+    
     [button addTarget:self action:@selector(onButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     button.tag = index;
     [self.containerView addSubview:button];
@@ -252,6 +264,23 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
     return self.messageLabel.text;
 }
 
+- (NSMutableDictionary<NSNumber *,NSDictionary<NSNumber *,UIColor *> *> *)buttonTitleColors
+{
+    if (!_buttonTitleColors) {
+        NSDictionary *buttonStyle = @{@(UIControlStateNormal): [NSNull null],
+                                      @(UIControlStateHighlighted): [NSNull null],
+                                      @(UIControlStateDisabled): [NSNull null],
+                                      @(UIControlStateSelected): [NSNull null]
+                                      };
+        _buttonTitleColors = [@{
+                                @(TYAlertActionStyleDefault): [buttonStyle mutableCopy],
+                                @(TYAlertActionStyleCancel): [buttonStyle mutableCopy],
+                                @(TYAlertActionStyleDestructive): [buttonStyle mutableCopy],
+                                } mutableCopy];
+    }
+    return _buttonTitleColors;
+}
+
 #pragma mark Lazy
 
 - (UILabel *)messageLabel
@@ -298,6 +327,20 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
     }
     _messageColor = messageColor;
     self.messageLabel.textColor = messageColor;
+}
+
+- (void)setButtonTitleColor:(nullable UIColor *)color forActionStyle:(TYAlertActionStyle)style forState:(UIControlState)state
+{
+    if (!color) {
+        return;
+    }
+    [self.buttonTitleColors[@(style)] setObject:color forKey:@(state)];
+    for (NSInteger i = 0; i < self.actions.count; ++i) {
+        TYAlertAction *action = self.actions[i];
+        if (action.style == style) {
+            [self.buttons[i] setTitleColor:color forState:state];
+        }
+    }
 }
 
 #pragma mark - Helper
