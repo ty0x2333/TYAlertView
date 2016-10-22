@@ -23,12 +23,12 @@ extern const UIWindowLevel UIWindowLevelTYPopup;
 @property (nonatomic, assign) TYAlertViewBackgroundStyle backgroundStyle;
 
 @property (nonatomic, strong) UIView *containerView;
-@property (nonatomic, strong) UIColor *popupViewBackgroundColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *popupViewBackgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
  default is 4.0f
  */
-@property (nonatomic, assign) CGFloat shadowRadius NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;;
+@property (nonatomic, assign) CGFloat shadowRadius UI_APPEARANCE_SELECTOR;;
 
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
