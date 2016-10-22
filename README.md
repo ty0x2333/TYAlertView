@@ -3,8 +3,8 @@ TYAlertView
 
 [![CI Status](http://img.shields.io/travis/luckytianyiyan/TYAlertView.svg?style=flat)](https://travis-ci.org/luckytianyiyan/TYAlertView)
 [![Version](https://img.shields.io/cocoapods/v/TYAlertView.svg?style=flat)](http://cocoapods.org/pods/TYAlertView)
-[![License](https://img.shields.io/badge/license-MIT%20License-blue.svg)](http://cocoapods.org/pods/TYAlertView)
 [![Platform](https://img.shields.io/cocoapods/p/TYAlertView.svg?style=flat)](http://cocoapods.org/pods/TYAlertView)
+[![License](https://img.shields.io/badge/license-MIT%20License-blue.svg)](http://cocoapods.org/pods/TYAlertView)
 
 Feature
 ---
