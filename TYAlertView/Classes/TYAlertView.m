@@ -264,7 +264,7 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
     return self.messageLabel.text;
 }
 
-- (NSMutableDictionary<NSNumber *,NSDictionary<NSNumber *,UIColor *> *> *)buttonTitleColors
+- (NSMutableDictionary<NSNumber *,NSMutableDictionary<NSNumber *,UIColor *> *> *)buttonTitleColors
 {
     if (!_buttonTitleColors) {
         NSDictionary *buttonStyle = @{@(UIControlStateNormal): [NSNull null],
