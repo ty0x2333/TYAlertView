@@ -33,6 +33,7 @@ TYAlertView *alertView = [[TYAlertView alloc] initWithTitle:@"title" message:@"m
 ```objective-c
 [TYAlertView appearance].titleColor = [UIColor redColor];
 [TYAlertView appearance].messageColor = [UIColor redColor];
+[TYAlertView appearance].separatorColor = [UIColor grayColor];
 [TYAlertView appearance].shadowRadius = 4.0f;
 [TYAlertView appearance].popupViewBackgroundColor = [UIColor blueColor];
 // Button Title Color
