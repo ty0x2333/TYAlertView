@@ -80,6 +80,7 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
     TYAlertView *appearance = [self appearance];
     appearance.titleColor = [UIColor blackColor];
     appearance.messageColor = [UIColor blackColor];
+    appearance.separatorColor = [UIColor colorWithRed:0 green:0 blue:80 / 255.f alpha:.05f];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -281,6 +282,16 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
     return _buttonTitleColors;
 }
 
+- (void)setSeparatorColor:(UIColor *)separatorColor
+{
+    if (_separatorColor == separatorColor) {
+        return;
+    }
+    for (UIView *view in _separators) {
+        view.backgroundColor = separatorColor;
+    }
+}
+
 #pragma mark Lazy
 
 - (UILabel *)messageLabel
@@ -349,7 +360,7 @@ static CGFloat const kTYAlertViewMessageLabelFontSize = 13.f;
 {
     UIView *separatorView = [[UIView alloc] init];
     separatorView.translatesAutoresizingMaskIntoConstraints = NO;
-    separatorView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:80 / 255.f alpha:.05f];
+    separatorView.backgroundColor = self.separatorColor;
     [self.containerView addSubview:separatorView];
     return separatorView;
 }
