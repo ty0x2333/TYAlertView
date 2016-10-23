@@ -9,6 +9,7 @@
 #import "TYPopupView.h"
 #import "TYPopupViewController.h"
 #import "TYAlertBackgroundWindow.h"
+#import <QuartzCore/CAAnimation.h>
 
 /**
  *  same as UIAlertView
