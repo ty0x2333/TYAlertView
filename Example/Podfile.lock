@@ -1,13 +1,11 @@
 PODS:
   - Kiwi (2.4.0)
   - Masonry (1.0.2)
-  - Reveal-SDK (2)
   - TYAlertView (0.1.0)
 
 DEPENDENCIES:
   - Kiwi
   - Masonry
-  - Reveal-SDK
   - TYAlertView (from `../`)
 
 EXTERNAL SOURCES:
@@ -17,9 +15,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Kiwi: f49c9d54b28917df5928fe44968a39ed198cb8a8
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
-  Reveal-SDK: 4d36a47c7091843eee525b72219e005b90bbac0b
   TYAlertView: 4ac4bd0b368082b1cd5a49c3ecfa4a7b09c3e282
 
-PODFILE CHECKSUM: 8a8d203c173be016a49364c60e563ab4bc698cb8
+PODFILE CHECKSUM: 882e32c1571c22442f8f2a6c1aca9c2140225dcc
 
 COCOAPODS: 1.0.1
