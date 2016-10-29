@@ -126,6 +126,8 @@ static TYAlertBackgroundWindow *_sTYAlertBackgroundWindow;
 {
     [TYPopupView hideBackgroundAnimated:animated];
     [self translationOut:^{
+        [self removeFromSuperview];
+        self.alertWindow.hidden = YES;
         [self.alertWindow removeFromSuperview];
         self.alertWindow = nil;
     }];
